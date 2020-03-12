@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -22,20 +22,22 @@ const useStyles = makeStyles({
   },
 });
 
-const saveBook = async(title, author, description, image, link) => {
-  const book = {
-    title, 
-    author, 
-    description, 
-    image, 
-    link
-  }
-  const savedBooks = await axios.post("/api/book", book)
-}
+// const saveBook = async(title, author, description, image, link) => {
+//   const book = {
+//     title, 
+//     author, 
+//     description, 
+//     image, 
+//     link
+//   }
+//   console.log(book); 
+//   const savedBooks = await axios.post("/api/book", book)
+// }
 
 
 export default function BookCard(props) {
-  const  {title, author, description, image, link} = props
+  const [save, setSave] = useState()
+  const  {title, author, description, image, link, saveBook} = props
 
   const classes = useStyles();
 
@@ -59,7 +61,7 @@ export default function BookCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button onClick={() => saveBook(title, author, description, image, link)} size="small" color="primary">
+        <Button onClick={() => saveBook(title, author, description, image, link)}>
           Save
         </Button>
         <Button size="small" color="primary">

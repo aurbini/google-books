@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 function Search (){
   const classes = useStyles();
 
-
+  const [ saved, setSaved] = useState(); 
   const [ books, setBooks] = useState([]); 
   const [formObject, setFormObject] = useState('')
   
@@ -36,34 +36,54 @@ function Search (){
         method: 'get', 
         url: `https://www.googleapis.com/books/v1/volumes?q=${formObject}`
       })
-      console.log(data); 
-      const book = 
-        {
-          title: data.items[0].volumeInfo.title,
-          description:  data.items[0].volumeInfo.description,
-          image: data.items[0].volumeInfo.imageLinks.smallThumbnail,
-          link: data.items[0].volumeInfo.infoLink,
-          author:data.items[0].volumeInfo.authors[0], 
-        } 
-      
-      setBooks([...books, book]); 
+      console.log(data);
+
+      const search = data.items.filter(book =>
+        book.volumeInfo.title &&
+        book.volumeInfo.authors &&
+        book.volumeInfo.description &&
+        book.volumeInfo.imageLinks.smallThumbnail &&
+        book.volumeInfo.infoLink
+      )
+       console.log(search);
+      // const items = search.items
+      const books = search.map(book=>({
+        title: book.volumeInfo.title,
+        description:  book.volumeInfo.description,
+        image: book.volumeInfo.imageLinks.smallThumbnail,
+        link: book.volumeInfo.infoLink,
+        author: book.volumeInfo.authors
+      }))
+      console.log(books);
+
+
+      setBooks(books); 
     };
   }
-
+  async function saveBook(title, author, description, image, link){
+    const Author = author[0]
+    const book = {
+          title, 
+          Author, 
+          description, 
+          image, 
+          link
+        }
+        console.log(book); 
+        const savedBooks = await axios.post("/api/book", book)
+      }
 
   const renderBooks =()=>{
-  console.log(books); 
   return books.map((book) =>{
     const {title, author, description, image, link} = book
     return(
       <Grid item sm={6} xs={12} spacing={3}>
-        <BookCard title={title} author={author} description={description} image={image} link={link} />
+        <BookCard saveBook={saveBook} title={title} author={author} description={description} image={image} link={link}/>
       </Grid>
      )
     })
-
   }
-
+ 
 
   return (
      <div className="App">
@@ -99,3 +119,22 @@ export default Search;
 
 
 
+
+      // const books = items.map(book=>{
+      //   return {
+      //     title: book.volumeInfo.title,
+      //     description: book.volumeInfo.description, 
+      //     link: book.volumeInfo.infoLink,
+      //     author: book.volumeInfo.imageLink.smallThumbnail
+      //   }
+      // })
+      // console.log(books); 
+      // const book = 
+      //   {
+      //     title: data.items[0].volumeInfo.title,
+      //     description:  data.items[0].volumeInfo.description,
+      //     image: data.items[0].volumeInfo.imageLinks.thumbnail,
+      //     link: data.items[0].volumeInfo.infoLink,
+      //     author:data.items[0].volumeInfo.authors[0], 
+      //   } 
+      
