@@ -1,6 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import axios from "axios"; 
 import BookCard from "../components/Card"
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+
 
 function Search (){
   const [ books, setBooks] = useState([]); 
@@ -39,7 +43,7 @@ function Search (){
   return books.map((book) =>{
     const {title, author, description, image, link} = book
     return(
-      <BookCard title={title} author={author} description={description} image={image} link={link} />
+        <BookCard title={title} author={author} description={description} image={image} link={link} />
      )
     })
 

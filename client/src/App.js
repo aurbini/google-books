@@ -14,7 +14,7 @@ function App(){
             <Nav />
             <Search />
           </Route>  
-          <Route path="/book/saved">
+          <Route exact path="/book/saved">
             <Nav />
             <Saved />
           </Route>

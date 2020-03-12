@@ -2,12 +2,24 @@ import React from "react";
 import {useContext, useEffect, useState} from 'react';
 import axios from "axios"; 
 import BookCard from "../components/Card"
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
 
 function Saved (){
   const [ books, setBooks] = useState([]); 
-
+  const classes = useStyles();
 
   useEffect (()=>{
     async function fetchData(){
@@ -23,7 +35,9 @@ function Saved (){
     return books.map((book) =>{
       const {title, author, description, image, link} = book
       return(
-        <BookCard title={title} author={author} description={description} image={image} link={link} />
+        <Grid item sm={6} xs={12} spacing={3}>
+          <BookCard title={title} author={author} description={description} image={image} link={link} />
+        </Grid>
        )
       })
   
@@ -32,11 +46,11 @@ function Saved (){
 
 
   return (
-    <div>
-      <h1>Saved Books</h1>
+    <Grid container={classes.root} spacing={3}>
+      
       { books ? renderBooks() : "no books" }
 
-    </div>
+    </Grid>
   )
 
 }

@@ -8,6 +8,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios"; 
+import "../index.css";
+import Grid from '@material-ui/core/Grid';
+
+
 
 const useStyles = makeStyles({
   root: {
@@ -27,7 +31,6 @@ const saveBook = async(title, author, description, image, link) => {
     link
   }
   const savedBooks = await axios.post("/api/book", book)
-
 }
 
 
@@ -37,7 +40,7 @@ export default function BookCard(props) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card container className={classes.root} xs={12} sm={6} spacing={3}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
