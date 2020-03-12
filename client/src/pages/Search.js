@@ -3,10 +3,23 @@ import axios from "axios";
 import BookCard from "../components/Card"
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 function Search (){
+  const classes = useStyles();
+
+
   const [ books, setBooks] = useState([]); 
   const [formObject, setFormObject] = useState('')
   
@@ -43,7 +56,9 @@ function Search (){
   return books.map((book) =>{
     const {title, author, description, image, link} = book
     return(
+      <Grid item sm={6} xs={12} spacing={3}>
         <BookCard title={title} author={author} description={description} image={image} link={link} />
+      </Grid>
      )
     })
 
@@ -56,17 +71,24 @@ function Search (){
         <h1>What Books Should I Read?</h1>
       </div>
        <form> 
-         <input 
+         <TextField
+          id="outlined-basic" 
+          label="Outlined" 
+          variant="outlined"
           onChange={handleInputChange}
           name="search"
           />
-        <button
+        <Button
+          variant="contained"
+          color="primary"
           onClick={handleFormSubmit}
         >Submit Button
-        </button>
+        </Button>
       </form>
       <ul>
+      <Grid container={classes.root} spacing={3}>
          { books ? renderBooks() : "no books" }
+      </Grid>
        </ul>
      </div>
   )
