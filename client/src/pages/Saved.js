@@ -20,23 +20,40 @@ const useStyles = makeStyles(theme => ({
 function Saved (){
   const [ books, setBooks] = useState([]); 
   const classes = useStyles();
+  // const [deletedBook, setDeletedBook] = useState(); 
 
   useEffect (()=>{
     async function fetchData(){
       const {data} = await axios.get("/api/book"); 
       console.log(data)
-      setBooks(data); 
+
+      setBooks(data);
+      console.log(books); 
     }
     fetchData()
   }, [])
 
+  const deleteBook = async (id) =>{
+    console.log(id); 
+    const res = await axios.delete("/api/book/"+id); 
+    console.log(res);
+    loadBooks(); 
+  }
+
+  async function loadBooks(){
+    const {data} = await axios.get("/api/book");
+    console.log('load not deleted')
+    setBooks(data); 
+  }
+
   const renderBooks =()=>{
     console.log(books); 
     return books.map((book) =>{
-      const {title, author, description, image, link} = book
+      const {_id, title, author, description, image, link} = book
+      console.log(_id); 
       return(
         <Grid item sm={6} xs={12} spacing={3}>
-          <BookCard title={title} author={author} description={description} image={image} link={link} />
+          <BookCard id={_id} deleteBook={deleteBook} title={title} author={author} description={description} image={image} link={link} />
         </Grid>
        )
       })

@@ -54,6 +54,15 @@ app.get("/api/book", async(req, res) =>{
   res.json(books); 
 })
 
+app.delete("/api/book/:id", async(req, res)=>{
+  // console.log(req.params.id)
+  // Book.findById({_id: req.params.id})
+  // .then(dbModel => dbModel.remove())
+  // .then(db => res.)
+  const findBook = await Book.findById({_id: req.params.id});
+  const removedBook = await findBook.remove();
+  res.json(removedBook)
+})
 
 app.listen(PORT, () => {
   console.log(`🌎 ==> API server now on port ${PORT}!`);

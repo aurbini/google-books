@@ -22,23 +22,13 @@ const useStyles = makeStyles({
   },
 });
 
-// const saveBook = async(title, author, description, image, link) => {
-//   const book = {
-//     title, 
-//     author, 
-//     description, 
-//     image, 
-//     link
-//   }
-//   console.log(book); 
-//   const savedBooks = await axios.post("/api/book", book)
-// }
 
 
 export default function BookCard(props) {
-  const [save, setSave] = useState()
-  const  {title, author, description, image, link, saveBook} = props
+ 
 
+  const  {id, title, deleteBook, author, description, image, link, saveBook} = props
+  // console.log(id); 
   const classes = useStyles();
 
   return (
@@ -66,6 +56,9 @@ export default function BookCard(props) {
         </Button>
         <Button size="small" color="primary">
           <a href={link} >Link</a>
+        </Button>
+        <Button onClick={()=> deleteBook(id)} size="small" color="primary">
+          Delete
         </Button>
       </CardActions>
     </Card>
