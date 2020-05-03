@@ -1,54 +1,54 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Grid, Typography, AppBar, Toolbar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
+import HomeIcon from '@material-ui/icons/Home';
+import { Link } from 'react-router-dom';
+import Home  from '../pages/Home'; 
 
 
 
+const useStyles = makeStyles({
+  navTab: {
+    color: "white", 
+    border: "1px solid black"
+  }, 
+  typographyStyles: {
+    flex: 3, 
+  }, 
+  grid: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
+})
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-}));
-
-
-function Navbar(){
-  const classes = useStyles();
-
+export default props => {
+  const classes = useStyles(); 
   return (
     <AppBar position="static">
-      <Typography variant="h6" color="inherit">
-      <Link to="/">Home</Link>
-      </Typography>
-      <Typography variant="h6" color="inherit">
-      <Link to="/book/saved">Saved</Link>
-      </Typography>
+      <Toolbar>
+        <Typography xs={12} className={classes.typographyStyles}>Header</Typography>
+        <Grid container xs={12} sm={3} direction="row" className={ classes.grid } >
+          <Button component={Link} to="/Home">
+            <HomeIcon   /></Button>  
+          <Link to='/saved'>
+            <Typography >Saved</Typography>
+          </Link>
+        </Grid>
+      </Toolbar>
     </AppBar>
 
   )
 }
 
-export default Navbar; 
+
+{/* 
 
 
-  // <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  //   <a class="navbar-brand" href="#">Navbar</a>
-  //   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-  //     <span class="navbar-toggler-icon"></span>
-  //   </button>
-  //   <div class="collapse navbar-collapse" id="navbarNav">
-  //     <ul class="navbar-nav">
-  //       <li class="nav-item active">
-  //         <Link to="/">Home</Link>
-  //       </li>
-  //       <li class="nav-item">
-  //         <Link to="/book/saved">Saved</Link>
-  //       </li>
-  //     </ul>
-  //   </div>
-  // </nav>
+// <Grid container xs={12} className={classes.nav} direction="row">
+    //   <Grid item xs={6} className={classes.navTab}>
+    //     <Typography color="">GoogleBooks</Typography>
+    //   </Grid>
+    //   <Grid item xs={2} className={classes.navTab}>Home</Grid>
+    //   <Grid item xs={2} className={classes.navTab}>Saved</Grid>
+    //   <Grid item xs={2} className={classes.navTab}>Login</Grid>
+    // </Grid>  */}

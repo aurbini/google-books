@@ -1,26 +1,22 @@
-import './App.css';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Saved from "./pages/Saved"; 
-import Search from "./pages/Search";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Saved from "./components/Saved";
+import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import React from "react"; 
+import { BooksProvider } from './utils/globalState'
+
 
 function App(){
   return (
-    <BrowserRouter>
-      <div> 
-        <Switch>
-          <Route exact path="/">
-            <Nav />
-            <Search />
-          </Route>  
-          <Route exact path="/book/saved">
-            <Nav />
-            <Saved />
-          </Route>
-        </Switch> 
-      </div>
-    </BrowserRouter>
+    <Router>
+        <Nav /> 
+          <BooksProvider>
+            <Switch>
+              <Route exact path="/Home" component={Home} />
+              <Route exact path="/saved" component={Saved} /> 
+            </Switch> 
+          </BooksProvider>
+      </Router>
   )
 }
 

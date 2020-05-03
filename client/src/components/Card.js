@@ -5,31 +5,41 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import axios from "axios"; 
-import "../index.css";
-import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import {Button} from '@material-ui/core/';
 
-
+import API from '../utils/api'
+import { v1 as uuidv1 } from 'uuid';
+import { AddIcon, DeleteIcon }from '@material-ui/icons/ZoomOutMapRounded';
+import { useLocation } from 'react-router-dom'
+import { typography } from '@material-ui/system';
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    height: 350
   },
   media: {
-    height: 140,
+    height: 160,
   },
+  title: {
+    maxHeight: 80
+  }, 
+  author: {
+    marginBottom: 0, 
+    paddingBottom: 0
+  }
 });
 
 
 
 export default function BookCard(props) {
- 
-
-  const  {id, title, deleteBook, author, description, image, link, saveBook} = props
-  // console.log(id); 
+  console.log(props)
+  const  { title, author, description, image, _id } = props.book
   const classes = useStyles();
+  const location = useLocation()
+  console.log(_id)
 
   return (
     <Card container className={classes.root} xs={12} sm={6} spacing={3}>
@@ -39,28 +49,56 @@ export default function BookCard(props) {
           image={image}
         />
         <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography className={classes.title} gutterBottom variant="h6" component="h2">
             {title}
           </Typography>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="body2" component="h2">
             {author}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {description}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button onClick={() => saveBook(title, author, description, image, link)}>
-          Save
-        </Button>
-        <Button size="small" color="primary">
-          <a href={link} >Link</a>
-        </Button>
-        <Button onClick={()=> deleteBook(id)} size="small" color="primary">
-          Delete
-        </Button>
+      {location.pathname === '/saved'? 
+        <Button
+          onClick={() => props.removeBook(_id)}
+        >Delete
+        </Button> :
+        <Button
+          onClick={() => API.saveBook(props.book)}>Add</Button>}
       </CardActions>
     </Card>
   );
 }
+
+
+
+// ? <IconButton 
+//           size="small"
+//           onClick={() => API.deleteBook(props._id)}
+//           >
+//           <DeleteIcon /> 
+//         </IconButton>
+//         : <IconButton 
+//             size="small"
+//             onClick={() => API.saveBook(props.book)}
+//             >
+//             <AddIcon /> 
+//           </IconButton> 
+    {/* <Typography variant="body2" color="textSecondary" component="p">
+            {description}
+          </Typography> */}
+
+
+
+
+
+
+    {/* <Button onClick={() => API.saveBook(title, author, description, image, link)}>
+        Save
+      </Button>
+      <Button size="small" color="primary">
+        <a href={link} >Link</a>
+      </Button>
+      <Button onClick={()=> API.deleteBook(id)} size="small" color="primary">
+        Delete
+      </Button> */}
