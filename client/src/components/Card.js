@@ -19,13 +19,13 @@ export default function BookCard(props) {
   console.log(_id)
 
   return (
-    <Card container className={classes.root} xs={12} sm={6} spacing={3}>
-      <CardActionArea>
+    <Card className={classes.root} xs={12} sm={6} spacing={3}>
+      <CardActionArea className={classes.mainContent}>
         <CardMedia
           className={classes.media}
           image={image}
         />
-        <CardContent>
+        <CardContent className={classes.description}>
         <Typography className={classes.title} gutterBottom variant="h6" component="h2">
             {title}
           </Typography>
@@ -51,14 +51,20 @@ export default function BookCard(props) {
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
-    height: 350,
+    height: 370,
     marginBottom: '2px',
     paddingBottom: '2px'
+  },
+  mainContent: {
+    paddingBottom: '0px'
   },
   media: {
     height: 200,
     maxWidth: '100%', 
     maxHeight: '100%'
+  },
+  description: {
+    paddingBottom: '3px'
   },
   title: {
     maxHeight: 80

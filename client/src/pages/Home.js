@@ -19,7 +19,7 @@ export default function Home(){
     const books = booksData.items.map(({ volumeInfo })=>({
       title: volumeInfo.title,
       description: volumeInfo.description,
-      image: typeof(volumeInfo.imageLinks.smallThumbnail) != undefined ? 
+      image: volumeInfo.hasOwnProperty('imageLinks') != false ? 
                     volumeInfo.imageLinks.smallThumbnail
                     : null,
       link: volumeInfo.infoLink,
@@ -33,12 +33,6 @@ export default function Home(){
 
   const addBook = (book) => { 
     API.saveBook(book)
-      // .then(res => {
-      //   dispatch({
-      //     type: "ADDBOOK",
-      //     payload: book
-      //   })
-      // })
   }
   
     return (
@@ -81,6 +75,7 @@ export default function Home(){
       width: "100%",
       marginTop: '2rem',
       backgroundColor: '#eee',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      alignItems: 'center'
     }
   }));
