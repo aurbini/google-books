@@ -7,26 +7,37 @@ const { Provider } = booksContext;
 const reducer = (state, action) => {
   // eslint-disable-next-line default-case
   switch (action.type) {
-  case "ADDBOOK":
-    return  [
+  case "SEARCHBOOKS":
+    return {
       ...state, 
-       action.payload,
-    ]
+      searched: action.payload
+    }
+  case "ADDBOOK":
+    return  {
+      ...state, 
+      saved: [ ...state.saved, action.payload ] 
+    }
   case "SAVEDBOOKS": 
-    return [
-      ...action.payload 
-    ]
+    return {
+      ...state, 
+      saved: [ ...action.payload]
+    }
+    
   case "DELETEBOOK":
-    return [
-      ...state.filter(book => book._id != action.payload)
-    ]
+    return {
+      ...state,
+      saved: state.saved.filter(book => book._id != action.payload)
+  }
   default: 
     return state
   }
 }
 
 const BooksProvider = ({ value = [], ...props }) => {
-  const [state, dispatch] = useReducer(reducer, [])
+  const [state, dispatch] = useReducer(reducer, {
+    saved: [], 
+    searched: []
+  })
   return <Provider value={[state, dispatch]} {...props} />;
 }
 

@@ -3,19 +3,19 @@ import Saved from "./components/Saved";
 import Home from "./pages/Home";
 import Nav from "./components/Nav";
 import React from "react"; 
-import { BooksProvider } from './utils/globalState'
-
+import './app.css'
 
 function App(){
+
+
+
   return (
     <Router>
         <Nav /> 
-          <BooksProvider>
-            <Switch>
-              <Route exact path="/Home" component={Home} />
-              <Route exact path="/saved" component={Saved} /> 
-            </Switch> 
-          </BooksProvider>
+          <Switch>
+            <Route exact path="/Home" render={()=> <Home />} />
+            <Route exact path="/saved" component={Saved} /> 
+          </Switch> 
       </Router>
   )
 }

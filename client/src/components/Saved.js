@@ -1,42 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Paper, Grid, TextField, Button
-          , FormControl, Container } from '@material-ui/core';
+import { Typography, Paper, Grid } from '@material-ui/core';
 import API from '../utils/api'
 import Card from './Card'
 import { useBooksContext } from '../utils/globalState'
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  Paper: {
-    height: '100px',
-    display: 'flex',
-    textAlign: 'center',
-    alignItems: 'center', 
-    justifyContent: 'center'
-  }, 
-  wrapper: {
-    height: '100%',
-    width: '100%'
-  },
-  FormContainer: {
-    height: '100vh',
-    justifyContent: 'center', 
-    backgroundColor: '#eee'
-  }, 
-  Form: {
-    marginTop: '2rem'
-  }
-}));
 
 const Saved = () => {
 
   const [ state, dispatch] = useBooksContext()
   const classes = useStyles()
-  // const [ savedBooks, setSavedBooks ] = useState([])
-  console.log(state)
+
 
   const removeBook = (id) => { 
     API.deleteBook(id)
@@ -62,7 +36,6 @@ const Saved = () => {
     getBooks()
   },[])
  
-
   return (
     <Grid container className={classes.root} >
       <Grid item xs={12} >
@@ -74,15 +47,15 @@ const Saved = () => {
           </Typography>
         </Paper>
       </Grid>
-      <Grid container sm='12' className={classes.FormContainer}>
+      <Grid container sm='12' className={classes.cardContainer}>
         <Grid item >
         </Grid>
         <Grid 
           container 
           style={{width: "90%", marginTop: '2rem'}}
           spacing={1}>
-          {state ? 
-            state.map(book => (
+          {state.saved ? 
+            state.saved.map(book => (
               <Grid item xs={12} sm={4}>
                 <Card book={book} removeBook={removeBook} /> 
               </Grid>
@@ -95,3 +68,29 @@ const Saved = () => {
 }
 
 export default Saved; 
+
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  Paper: {
+    height: '100px',
+    display: 'flex',
+    textAlign: 'center',
+    alignItems: 'center', 
+    justifyContent: 'center'
+  }, 
+  wrapper: {
+    height: '100%',
+    width: '100%'
+  },
+  cardContainer: {
+    height: '100vh',
+    justifyContent: 'center', 
+    backgroundColor: '#eee'
+  }, 
+  Form: {
+    marginTop: '2rem'
+  }
+}));

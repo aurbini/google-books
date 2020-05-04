@@ -8,30 +8,35 @@ import Home  from '../pages/Home';
 
 
 const useStyles = makeStyles({
+  root: {
+    justifyContent: 'center'
+  },
   navTab: {
     color: "white", 
-    border: "1px solid black"
+    border: "1px solid black", 
+    position: 'static'
   }, 
   typographyStyles: {
     flex: 3, 
   }, 
   grid: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 })
 
 export default props => {
   const classes = useStyles(); 
   return (
-    <AppBar position="static">
+    <AppBar className={classes.root} position="static">
       <Toolbar>
-        <Typography xs={12} className={classes.typographyStyles}>Header</Typography>
+        <Typography xs={12} variant='h4' className={classes.typographyStyles}>MyBooks</Typography>
         <Grid container xs={12} sm={3} direction="row" className={ classes.grid } >
           <Button component={Link} to="/Home">
             <HomeIcon   /></Button>  
-          <Link to='/saved'>
-            <Typography >Saved</Typography>
+          <Link style={{textDecoration: 'none', alignItems: 'center', color: 'white'}} to='/saved'>
+            <Typography style={{fontSize: '20px'}}>Saved</Typography>
           </Link>
         </Grid>
       </Toolbar>
