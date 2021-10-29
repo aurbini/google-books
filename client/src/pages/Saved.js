@@ -1,99 +1,88 @@
-import React, { Fragment } from 'react';
-import Saved from '../components/Saved'
+import React, { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Paper, Grid } from '@material-ui/core';
+import API from '../utils/api'
+import { useBooksContext } from '../store/booksState'
+import Card from '../UI/Card'
+import backgroundImage from '../images/wallpaper.jpeg'
 
-export default function Home(){
+const Saved = () => {
+
+  const [ booksState, dispatch] = useBooksContext()
+  const classes = useStyles()
+  useEffect(() => {
+    getBooks()
+  },[])
+
+  const getBooks = () => {
+    API.getSavedBooks()
+      .then(res => {
+        dispatch({
+          type: "SET", 
+          books: res.data
+        })
+      })
+  }
+ 
+  const removeBookHandler = (id) => () => { 
+    console.log(id)
+    API.deleteBook(id)
+      .then(res => {
+        dispatch({
+          type: "DELETE",
+          payload: id
+        })
+      })
+  }
   return (
-    <Saved /> 
+    <Grid container className={classes.root} >
+      <Grid item xs={12} >
+        <Paper className={classes.Paper}> 
+          <Typography 
+            variant="h3"
+            className={classes.Heading}
+          >Saved Books
+          </Typography>
+        </Paper>
+      </Grid>
+      <Grid container sm='12' className={classes.cardContainer}>
+        <Grid item >
+        </Grid>
+        <Grid 
+          container 
+          style={{width: "90%", marginTop: '2rem'}}
+          spacing={1}>
+          {booksState.saved ? 
+            booksState.saved.map(book => (
+              <Grid item xs={12} sm={4}>
+                <Card book={book} onClick={removeBookHandler(book._id)} buttonText="delete"/> 
+              </Grid>
+            ))
+            : ""}
+        </Grid>
+      </Grid>
+    </Grid>
   )
 }
 
+export default Saved; 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from "react"; 
-// import {useContext, useEffect, useState} from 'react';
-// import axios from "axios"; 
-// import BookCard from "../components/Card"
-// import Grid from '@material-ui/core/Grid';
-// import { makeStyles } from '@material-ui/core/styles';
-
-
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   paper: {
-//     padding: theme.spacing(2),
-//     textAlign: 'center',
-//     color: theme.palette.text.secondary,
-//   },
-// }));
-
-// const Saved =() => {
-//   const [ books, setBooks] = useState([]); 
-//   const classes = useStyles();
-//   // const [deletedBook, setDeletedBook] = useState(); 
-
-//   useEffect (()=>{
-//     async function fetchData(){
-//       const {data} = await axios.get("/api/book"); 
-//       console.log(data)
-
-//       setBooks(data);
-//       console.log(books); 
-//     }
-//     fetchData()
-//   }, [])
-
-//   const deleteBook = async (id) =>{
-//     console.log(id); 
-//     const res = await axios.delete("/api/book/"+id); 
-//     console.log(res);
-//     loadBooks(); 
-//   }
-
-//   async function loadBooks(){
-//     const {data} = await axios.get("/api/book");
-//     console.log('load not deleted')
-//     setBooks(data); 
-//   }
-
-//   const renderBooks =()=>{
-//     console.log(books); 
-//     return books.map((book) =>{
-//       const {_id, title, author, description, image, link} = book
-//       console.log(_id); 
-//       return(
-//         <Grid item sm={6} xs={12} spacing={3}>
-//           <BookCard id={_id} deleteBook={deleteBook} title={title} author={author} description={description} image={image} link={link} />
-//         </Grid>
-//        )
-//       })
-  
-//     }
-
-
-
-//   return (
-//     <Grid container={classes.root} spacing={3}>
-      
-//       { books ? renderBooks() : "no books" }
-
-//     </Grid>
-//   )
-
-// }
-
-// export default Saved; 
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundImage: `url(${backgroundImage})`
+  },
+  Paper: {
+    backgroundImage: `url(${backgroundImage})`,
+    height: '100px',
+    display: 'flex',
+    textAlign: 'center',
+    alignItems: 'center', 
+    justifyContent: 'center'
+  },
+  cardContainer: {
+    height: '100vh',
+    justifyContent: 'center', 
+  }
+}));

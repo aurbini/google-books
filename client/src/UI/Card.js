@@ -12,51 +12,44 @@ import { useLocation } from 'react-router-dom'
 
 
 export default function BookCard(props) {
-  console.log(props)
   const  { title, author, description, image, _id } = props.book
   const classes = useStyles();
   const location = useLocation()
-  console.log(_id)
 
   return (
     <Card className={classes.root} xs={12} sm={6} spacing={3}>
-      <CardActionArea className={classes.mainContent}>
         <CardMedia
           className={classes.media}
           image={image}
         />
-        <CardContent className={classes.description}>
-        <Typography className={classes.title} gutterBottom variant="h6" component="h2">
-            {title}
-          </Typography>
-          <Typography gutterBottom variant="body2" component="h2">
-            {author}
-          </Typography>
+        <CardContent className={classes.content}>
+          <Typography className={classes.title} gutterBottom variant="h6" component="h2">
+              {title}
+            </Typography>
+            <Typography gutterBottom variant="body2" component="h2">
+              {author}
+            </Typography>
+          <CardActionArea > 
+            <Button 
+              onClick={props.onClick}
+              variant="outlined">{props.buttonText}</Button>
+          </CardActionArea>
         </CardContent>
-      </CardActionArea>
-      <CardActions style={{padding: 0, display: 'flex', justifyContent: 'center'}}>
-      {location.pathname === '/saved'? 
-        <Button
-          onClick={() => props.removeBook(_id)}
-        >Delete
-        </Button> :
-        <Button
-          onClick={() => props.addBook(props.book)}>Add</Button>}
-      </CardActions>
     </Card>
   );
 }
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: 345,
     height: 370,
     marginBottom: '2px',
-    paddingBottom: '2px'
+    backgroundColor: theme.palette.secondary.dark
   },
   mainContent: {
-    paddingBottom: '0px'
+    paddingBottom: '0px',
+
   },
   media: {
     height: 200,
@@ -64,7 +57,8 @@ const useStyles = makeStyles({
     maxHeight: '100%'
   },
   description: {
-    paddingBottom: '3px'
+    paddingBottom: '3px', 
+    justifyContent: 'center', 
   },
   title: {
     maxHeight: 80
@@ -73,6 +67,13 @@ const useStyles = makeStyles({
     marginBottom: 0, 
     paddingBottom: 0
   }
-});
+}));
 
 
+   // location.pathname === '/saved'? 
+      //   <Button
+      //     onClick={() => props.removeBook(_id)}
+      //   >Delete
+      //   </Button> :
+      //   <Button
+      //     onClick={() => props.addBook(props.book)}>Add</Button>

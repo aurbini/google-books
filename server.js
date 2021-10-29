@@ -1,4 +1,3 @@
-
 const express = require("express");
 const app = express();
 const routes = require("./routes"); 
@@ -38,58 +37,4 @@ app.use(function (err, req, res, next) {
   if (!err.statusCode) err.statusCode = 500;
   res.status(err.statusCode).send(err.message);
 });
-
-
-
-
-
-
-
-
-
-
-// mongoose.connect(
-//   process.env.MONGODB_URI || "mongodb://localhost/googlebooks",
-//   { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
-// )
-
-// const Book = mongoose.model('book', new mongoose.Schema(
-//   {
-//     title: 'string',
-//     author: 'string', 
-//     description: 'string', 
-//     image: 'string',
-//     link: 'string',
-//   }
-// ))
-
-
-
-
-// app.post("/api/book", async(req, res) => {
-//   const book = await Book.create({
-//     title: req.body.title, 
-//     author: req.body.author,
-//     description: req.body.description, 
-//     image: req.body.image, 
-//     link: req.body.link
-//   })
-//   res.json(book); 
-// })
-
-// //save books api
-// app.get("/api/book", async(req, res) =>{
-//   const books = await Book.find({});
-//   res.json(books); 
-// })
-
-// app.delete("/api/book/:id", async(req, res)=>{
-//   // console.log(req.params.id)
-//   // Book.findById({_id: req.params.id})
-//   // .then(dbModel => dbModel.remove())
-//   // .then(db => res.)
-//   const findBook = await Book.findById({_id: req.params.id});
-//   const removedBook = await findBook.remove();
-//   res.json(removedBook)
-// })
 

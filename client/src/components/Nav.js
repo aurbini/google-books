@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
 import Home  from '../pages/Home'; 
-
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 
 
 const useStyles = makeStyles({
@@ -29,9 +29,14 @@ const useStyles = makeStyles({
 export default props => {
   const classes = useStyles(); 
   return (
-    <AppBar className={classes.root} position="static">
+    <AppBar className={classes.root} position="relative">
       <Toolbar>
-        <Typography xs={12} variant='h4' className={classes.typographyStyles}>MyBooks</Typography>
+        <Grid container xs={12} sm={9} >
+          <LocalLibraryIcon />
+          <Typography variant="h6">
+            BooksFinder
+          </Typography>
+        </Grid>  
         <Grid container xs={12} sm={3} direction="row" className={ classes.grid } >
           <Button component={Link} to="/Home">
             <HomeIcon   /></Button>  
@@ -44,16 +49,3 @@ export default props => {
 
   )
 }
-
-
-{/* 
-
-
-// <Grid container xs={12} className={classes.nav} direction="row">
-    //   <Grid item xs={6} className={classes.navTab}>
-    //     <Typography color="">GoogleBooks</Typography>
-    //   </Grid>
-    //   <Grid item xs={2} className={classes.navTab}>Home</Grid>
-    //   <Grid item xs={2} className={classes.navTab}>Saved</Grid>
-    //   <Grid item xs={2} className={classes.navTab}>Login</Grid>
-    // </Grid>  */}
