@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const routes = require("./routes"); 
 
+
 const mongoose = require("mongoose"); 
 const PORT = process.env.PORT || 3001;
+
+require('dotenv').config()
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -24,7 +27,7 @@ if(process.env.NODE_ENV === "production"){
 }
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/googlebooks",
+  process.env.MONGODB_URI || "mongodb://localhost/Google-Books",
   {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
 )
 
@@ -37,4 +40,5 @@ app.use(function (err, req, res, next) {
   if (!err.statusCode) err.statusCode = 500;
   res.status(err.statusCode).send(err.message);
 });
-
+// this was in .env file before
+// mongodb://aurbini:theoffice92@ds161183.mlab.com:61183/heroku_lfcbl2hg
