@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Paper, Grid } from '@material-ui/core';
 import API from '../utils/api'
@@ -10,19 +10,20 @@ const Saved = () => {
 
   const [ booksState, dispatch] = useBooksContext()
   const classes = useStyles()
-  useEffect(() => {
-    getBooks()
-  },[])
 
-  const getBooks = () => {
+  const getBooks =() => {
     API.getSavedBooks()
       .then(res => {
         dispatch({
-          type: "SET", 
-          books: res.data
+          type: "SET-SAVED", 
+          booksSaved: res.data
         })
       })
   }
+
+  useEffect(() => {
+    getBooks()
+  },[ ])
  
   const removeBookHandler = (id) => () => { 
     console.log(id)
@@ -34,6 +35,7 @@ const Saved = () => {
         })
       })
   }
+
   return (
     <Grid container className={classes.root} >
       <Grid item xs={12} >

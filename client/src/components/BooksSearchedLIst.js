@@ -11,8 +11,8 @@ const BooksSearchedList = ( {booksList, onAddBook} ) => {
       container 
       className={classes.cardsContainer}
       spacing={1}>
-      {booksList.map(book => (
-        <Grid item xs={12} sm={6} md={4}>
+      {booksList.map((book, index) => (
+        <Grid key={index} item xs={12} sm={6} md={4}>
           <Card book={book} 
             onClick={onAddBook(book)} 
             buttonText="Add"

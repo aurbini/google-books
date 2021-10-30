@@ -1,8 +1,8 @@
-import React, { useReducer, Fragment, useEffect } from 'react';
+import React, { useReducer, useEffect, useCallback } from 'react';
 
 import { useBooksContext } from '../store/booksState'
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Container, Typography } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import API from '../utils/api'
 import SearchForm from '../components/SearchForm'
 import booksReducer from '../store/reducers/booksReducer';
@@ -10,18 +10,15 @@ import useHttp from '../hooks/http';
 import BooksSearchedList from '../components/BooksSearchedLIst';
 import backgroundImage from '../images/wallpaper.jpeg'
 
-  
-
 export default function Home(){
   const [ booksState, booksDispatch ] = useBooksContext()
  
   const classes = useStyles()
-  const [ searchedBooks, dispatch] = useReducer (booksReducer, []);
+  const [ , dispatch ] = useReducer (booksReducer, []);
   const {
     isLoading,
     error,
     data,
-    sendRequest,
     reqExtra,
     reqIdentifer
   } = useHttp()
@@ -41,9 +38,9 @@ export default function Home(){
   if(booksState.searched.length > 0){
     booksSearched = true
   }
-  const handleLoadedBooks = (loadedBooks) => {
+  const searchBooksHandler = useCallback(loadedBooks => {
     booksDispatch({type: 'SET', books: loadedBooks})
-  }
+    }, [])
 
   const addBookHandler = (book) => () => { 
     API.saveBook(book)
@@ -60,40 +57,28 @@ export default function Home(){
         </Typography>
         <SearchForm 
           className={classes.searchForm} 
-          onLoadBooks={handleLoadedBooks}
+          onSearchBooks={searchBooksHandler}
         />
       </Container>
       <Container maxWidth="md" className={classes.listContainer}>
         {booksSearched && <BooksSearchedList
-                            onLoadBooks={handleLoadedBooks}
+                            onSearchBooks={searchBooksHandler}
                             booksList={booksState.searched}
                             onAddBook={addBookHandler}
         />}
         
       </Container>
     </div>
-    
-    // <Grid container className={classes.root} >
-    //   {/* <Hero />  */}
-    //   <Grid container sm='12' md='8' className={classes.FormContainer}>
-    //       <Search 
-    //         onLoadBooks={handleLoadedBooks}
-    //       />
-    //     </Grid>
-   
-    
-    // </Grid>
   )
-  }
-    
-  
-  const useStyles = makeStyles(theme => ({
-    mainContentContainer: {
-      flexGrow: 1,
-      backgroundImage: `url(${backgroundImage})`, 
-      height: '100vh', 
-      width: '100%',
-      justifyContent: 'center'
+}
+
+const useStyles = makeStyles(theme => ({
+  mainContentContainer: {
+    flexGrow: 1,
+    backgroundImage: `url(${backgroundImage})`, 
+    height: '100vh', 
+    width: '100%',
+    justifyContent: 'center'
     }, 
     FormContainer: {
       backgroundColor: 'white'
@@ -101,26 +86,5 @@ export default function Home(){
     listContainer: {
       marginTop: '2em'
     }
-  }));
-
-
-    // const searchBook = async (book) => {
-  //   const booksData = await API.getBooks(book.value)
-  //   const books = booksData.items.map(({ volumeInfo })=>({
-  //     title: volumeInfo.title,
-  //     description: volumeInfo.description,
-  //     image: volumeInfo.hasOwnProperty('imageLinks') != false ? 
-  //                   volumeInfo.imageLinks.smallThumbnail
-  //                   : null,
-  //     link: volumeInfo.infoLink,
-  //     author: volumeInfo.authors[0]
-  //   }))
-  //   dispatch({
-  //     type: "SEARCHBOOKS", 
-  //     payload: books
-  //   })
-  // }
-
-  // const addBook = (book) => { 
-  //   API.saveBook(book)
-  // }
+  }
+));

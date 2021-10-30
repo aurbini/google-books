@@ -3,7 +3,6 @@ import { Grid, Typography, AppBar, Toolbar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
-import Home  from '../pages/Home'; 
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 
 

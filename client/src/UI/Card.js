@@ -1,20 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import {Button} from '@material-ui/core/';
-import API from '../utils/api'
-import { useLocation } from 'react-router-dom'
+import { Button } from '@material-ui/core/';
 
 
 export default function BookCard(props) {
-  const  { title, author, description, image, _id } = props.book
+  const  { title, author, image } = props.book
   const classes = useStyles();
-  const location = useLocation()
 
   return (
     <Card className={classes.root} xs={12} sm={6} spacing={3}>

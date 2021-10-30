@@ -3,7 +3,7 @@ import { render }from 'react-dom';
 import App from './app';
 import { BooksProvider } from './store/booksState'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import { red, amber, lightBlue, blue } from '@material-ui/core/colors'
+import { lightBlue, blue } from '@material-ui/core/colors'
 
 
 const theme = createMuiTheme({

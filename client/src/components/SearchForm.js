@@ -1,45 +1,44 @@
-import React, { useRef, useReducer, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { InputBase, Button, FormControl, Grid } from '@material-ui/core';
 import useHttp from '../hooks/http';
-import { blue } from '@material-ui/core/colors';
 
-const SearchForm = ({ onLoadBooks }) => {
+const SearchForm = ({ onSearchBooks }) => {
   const inputRef = useRef()
   const classes = useStyles()  
-  const { isLoading, data, error, sendRequest, clear } = useHttp()
-
+  const { isLoading, data, error, sendRequest } = useHttp()
+  
   const searchBooksHandler = (event) => {
     event.preventDefault()
-    console.log(inputRef.current.value)
     sendRequest(`https://www.googleapis.com/books/v1/volumes?q=${inputRef.current.value}`, 
       'GET')
   }
-  const onLoadError = () => {
+  const searchBookErrorHandler = () => {
     alert('error loading books please try searching again')
   }
 
   useEffect(() => {
-    console.log(data)
     if(typeof data !== "undefined"){
       console.log('should be data')
     }
     if (!isLoading && !error && data) {
       if(data.error){ 
-        onLoadError()
+        console.log('search books')
+        searchBookErrorHandler()
       }else{
       const loadedBooks = data.items.map(({ volumeInfo })=>({
         title: volumeInfo.title,
         description: volumeInfo.description,
-        image: volumeInfo.hasOwnProperty('imageLinks') != false ? 
+        image: volumeInfo.hasOwnProperty('imageLinks') !== false ? 
                       volumeInfo.imageLinks.smallThumbnail
                       : null,
         link: volumeInfo.infoLink,
         author: volumeInfo.authors[0]
       }))
-      onLoadBooks(loadedBooks);}
+      onSearchBooks(loadedBooks);}
     };
-  }, [ data ]);
+  }, [ data, error, isLoading, onSearchBooks ]);
+
   return (
     <form 
       className={classes.form}
@@ -52,7 +51,6 @@ const SearchForm = ({ onLoadBooks }) => {
               className={classes.inputBase}
               placeholder="Book Title"
               inputRef={inputRef}
-              label="Outlined"
               id="outlined-basic" 
               label="Book Title" 
               variant="outlined"

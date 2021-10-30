@@ -2,17 +2,24 @@
 const booksReducer = ( books, action) => {
   switch (action.type) {
     case 'SET':
-      console.log('loading books')
       return {
         searched: action.books,
         saved: []
       };
+    case 'SET-SAVED': 
+      return {
+        searched: [], 
+        saved: action.booksSaved
+      }
     case 'GET': 
       return books
     case 'ADD':
       return [...books, action.ingredient];
     case 'DELETE':
-      return books.saved.filter(book => book._id !== action.id);
+      return {
+        saved: books.saved.filter(book => book._id !== action.id), 
+        searched: []
+      }
     default:
       throw new Error('Should not get there!');
   }
